@@ -13,13 +13,12 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   app:
-    container_name: quiz_app
+    container_name: qapp
     build:
       context: .
       dockerfile: Dockerfile
     depends_on:
       - postgres
-      - redis
     ports:
       - "3000:3000"
     volumes:
@@ -27,12 +26,9 @@ services:
     env_file: .env
     environment:
       RAILS_ENV: development
-      ELASTICSEARCH_URL: http://elasticsearch:9200
     read_only: false
     restart: always
     entrypoint: ./entrypoints/docker-entrypoint.sh
-    links:
-      - mailcatcher
 
   app-migrations:
     container_name: quiz_app-migrations
@@ -41,7 +37,6 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - postgres
-      - redis
     volumes:
       - .:/app
     env_file: .env
@@ -53,7 +48,6 @@ services:
 
 volumes:
   postgres-data:
-  redis-data:
   app:
 
 networks:
