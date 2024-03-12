@@ -10,8 +10,10 @@ FactoryBot.define do
       question.options << create(:portuguese_option2_q1, question:)
       question.options << create(:portuguese_option3_q1, question:)
       question.options << create(:portuguese_option4_q1, question:)
+    #   question.answer = build(:answer_question_1, question: question)
     end
 
     description { 'o que é crase?' }
+    # association :answer, factory: :answer_question_1
   end
 end

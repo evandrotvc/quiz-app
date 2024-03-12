@@ -9,5 +9,6 @@ FactoryBot.define do
     end
 
     association :category, factory: :portuguese_category
+    # association :answer, factory: :answer_question_1
   end
 end
