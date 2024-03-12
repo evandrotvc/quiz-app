@@ -3,8 +3,9 @@ FactoryBot.define do
   end
   factory :rounds_1, parent: :round do
     association :player
+
     after(:create) do |round|
-        create(:portuguese_question_1, round: round)
+        round.questions << create(:portuguese_question_1)
     end
 
     association :category, factory: :portuguese_category
