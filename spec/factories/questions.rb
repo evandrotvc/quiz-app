@@ -10,10 +10,36 @@ FactoryBot.define do
       question.options << create(:portuguese_option2_q1, question:)
       question.options << create(:portuguese_option3_q1, question:)
       question.options << create(:portuguese_option4_q1, question:)
-    #   question.answer = build(:answer_question_1, question: question)
     end
 
     description { 'o que é crase?' }
+  end
+
+  factory :portuguese_question_2, parent: :question do
+    association :category, factory: :portuguese_category
+
+    after(:build) do |question|
+      question.options << create(:portuguese_option1_q1, question:)
+      question.options << create(:portuguese_option2_q1, question:)
+      question.options << create(:portuguese_option3_q1, question:)
+      question.options << create(:portuguese_option4_q1, question:)
+    #   question.answer = build(:answer_question_1, question: question)
+    end
+
+    description { 'o que é frase?' }
     # association :answer, factory: :answer_question_1
+  end
+
+  factory :portuguese_question_3, parent: :question do
+    association :category, factory: :portuguese_category
+
+    after(:build) do |question|
+      question.options << create(:portuguese_option1_q1, question:)
+      question.options << create(:portuguese_option2_q1, question:)
+      question.options << create(:portuguese_option3_q1, question:)
+      question.options << create(:portuguese_option4_q1, question:)
+    end
+
+    description { 'o que é adjetivo?' }
   end
 end
