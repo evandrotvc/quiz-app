@@ -23,6 +23,7 @@ class CreateTables < ActiveRecord::Migration[7.0]
 
     create_table :questions do |t|
       t.belongs_to :round, null: false, foreign_key: true
+      t.belongs_to :category, null: false, foreign_key: true
       t.string :description
       t.timestamps
     end
@@ -30,6 +31,7 @@ class CreateTables < ActiveRecord::Migration[7.0]
     create_table :options do |t|
       t.belongs_to :question, null: false, foreign_key: true
       t.string :label
+      t.boolean :correct, default: false
       t.timestamps
     end
 
