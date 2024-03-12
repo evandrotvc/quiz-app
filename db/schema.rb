@@ -15,6 +15,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_11_192521) do
   enable_extension "plpgsql"
 
   create_table "answers", force: :cascade do |t|
+    t.bigint "round_id", null: false
     t.bigint "question_id", null: false
     t.bigint "option_id", null: false
     t.boolean "correct"
@@ -22,6 +23,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_11_192521) do
     t.datetime "updated_at", null: false
     t.index ["option_id"], name: "index_answers_on_option_id"
     t.index ["question_id"], name: "index_answers_on_question_id"
+    t.index ["round_id"], name: "index_answers_on_round_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -73,6 +75,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_11_192521) do
 
   add_foreign_key "answers", "options"
   add_foreign_key "answers", "questions"
+  add_foreign_key "answers", "rounds"
   add_foreign_key "options", "questions"
   add_foreign_key "question_rounds", "questions"
   add_foreign_key "question_rounds", "rounds"
