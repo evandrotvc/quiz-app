@@ -50,18 +50,40 @@ RSpec.describe 'Rounds' do
   end
 
   describe 'POST /rounds/:id/answers' do
-    it 'creates a new answer for a round' do
-      round = create(:rounds_1)
-      question = round.questions.first
-      option = question.options.first
-      answer_params = { answer: { question_id: question.id, option_id: option.id } }
+    context 'answer is correct' do
+      it 'creates a new answer for a round' do
+        round = create(:rounds_1)
+        question = round.questions.first
+        option = create(:portuguese_option4_q1, question: question) # setted correct true
 
-      post "/rounds/#{round.id}/answers", params: answer_params, as: :json
-      expect(response).to have_http_status(:created)
+        answer_params = { answer: { question_id: question.id, option_id: option.id } }
 
-      expect(json).to have_key('answer')
-      expect(json['answer']).to include('id', 'question_id', 'option_id',
-        'correct')
+        post "/rounds/#{round.id}/answers", params: answer_params, as: :json
+        expect(response).to have_http_status(:created)
+
+
+        expect(json['answer']['question_id']).to eq(question.id)
+        expect(json['answer']['option_id']).to eq(option.id)
+        expect(json['answer']['correct']).to eq(true)
+
+      end
+    end
+
+    context 'answer is false' do
+      it 'creates a new answer for a round' do
+        round = create(:rounds_1)
+        question = round.questions.first
+        option = create(:portuguese_option2_q1, question: question) # setted corect false
+
+        answer_params = { answer: { question_id: question.id, option_id: option.id } }
+
+        post "/rounds/#{round.id}/answers", params: answer_params, as: :json
+        expect(response).to have_http_status(:created)
+
+        expect(json['answer']['correct']).to eq(false)
+        expect(json['answer']['question_id']).to eq(question.id)
+        expect(json['answer']['option_id']).to eq(option.id)
+      end
     end
   end
 end

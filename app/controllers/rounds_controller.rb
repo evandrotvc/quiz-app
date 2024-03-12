@@ -25,7 +25,8 @@ class RoundsController < ApplicationController
   end
 
   def answers
-    @answer = @round.answers.build(answer_params)
+    option = Option.find(answer_params[:option_id])
+    @answer = @round.answers.build(answer_params.merge(correct: option.correct))
 
     if @answer.save
       render 'rounds/answers', status: :created
