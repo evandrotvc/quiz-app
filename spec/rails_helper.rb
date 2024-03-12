@@ -7,7 +7,7 @@ require_relative '../config/environment'
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
-require 'active_storage_validations/matchers'
+# require 'active_storage_validations/matchers'
 require 'simplecov'
 require 'shoulda/matchers'
 require 'support/database_cleaner'

@@ -1,4 +1,6 @@
 class Question < ApplicationRecord
-  has_many :round
+  belongs_to :round
   has_many :options
+
+  validates :description, presence: true
 end
