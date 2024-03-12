@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe Player, type: :model do
+RSpec.describe Player do
   describe 'relations' do
-    it { should have_many(:rounds) }
+    it { is_expected.to have_many(:rounds) }
   end
 
   describe 'validations' do
-    it { should validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:name) }
   end
 end

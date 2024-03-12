@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Category, type: :model do
+RSpec.describe Category do
   describe 'relations' do
-    it { should have_many(:rounds) }
+    it { is_expected.to have_many(:rounds) }
   end
 end

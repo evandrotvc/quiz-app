@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe Answer, type: :model do
+RSpec.describe Answer do
   describe 'relations' do
-    it { should belong_to(:round) }
-    it { should belong_to(:question) }
-    it { should belong_to(:option) }
+    it { is_expected.to belong_to(:round) }
+    it { is_expected.to belong_to(:question) }
+    it { is_expected.to belong_to(:option) }
   end
 end

@@ -1,12 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe Option, type: :model do
+RSpec.describe Option do
   describe 'relations' do
-    it { should belong_to(:question) }
+    it { is_expected.to belong_to(:question) }
   end
 
   describe 'validations' do
-    it { should validate_presence_of(:label) }
+    it { is_expected.to validate_presence_of(:label) }
   end
-
 end
