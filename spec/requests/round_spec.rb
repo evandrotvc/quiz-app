@@ -36,16 +36,20 @@ RSpec.describe 'Rounds' do
 
   describe 'GET /rounds/:id/result' do
     it 'returns the result of a round' do
-      round = create(:rounds_1, total_questions: 3, total_correct_answers: 2, total_answered_questions: 3)
+      round = create(:rounds_1)
+      question = round.questions.first
+      option = create(:portuguese_option4_q1, question: question)
+
+      answer = create(:answer, round: round, question: question, option: option, correct: true)
       get "/rounds/#{round.id}/result", as: :json
       expect(response).to have_http_status(:success)
 
       expect(json).to have_key('round')
       expect(json['round']).to include('id', 'player_id', 'total_questions',
         'total_answered_questions', 'total_correct_answers')
-      expect(json['round']['total_questions']).to eq(3)
-      expect(json['round']['total_correct_answers']).to eq(2)
-      expect(json['round']['total_answered_questions']).to eq(3)
+      expect(json['round']['total_questions']).to eq(1)
+      expect(json['round']['total_correct_answers']).to eq(1)
+      expect(json['round']['total_answered_questions']).to eq(1)
     end
   end
 

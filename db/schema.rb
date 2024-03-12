@@ -69,9 +69,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_11_192521) do
   create_table "rounds", force: :cascade do |t|
     t.bigint "player_id", null: false
     t.bigint "category_id", null: false
-    t.integer "total_questions", default: 0
-    t.integer "total_correct_answers", default: 0
-    t.integer "total_answered_questions", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_rounds_on_category_id"

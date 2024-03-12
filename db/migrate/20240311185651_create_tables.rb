@@ -14,10 +14,6 @@ class CreateTables < ActiveRecord::Migration[7.0]
       t.belongs_to :player, null: false, foreign_key: true
       t.belongs_to :category, null: false, foreign_key: true
 
-      t.integer :total_questions, default: 0
-      t.integer :total_correct_answers, default: 0
-      t.integer :total_answered_questions, default: 0
-
       t.timestamps
     end
 

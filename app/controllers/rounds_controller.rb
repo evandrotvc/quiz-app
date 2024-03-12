@@ -11,7 +11,7 @@ class RoundsController < ApplicationController
     player = Player.find_by(name: round_params[:player_name])
     questions = Question.filter_category(round_params[:category_id]).sample(3)
 
-    @round = Round.new(round_params.except(:player_name).merge(player: player, questions: questions, total_questions: questions.count))
+    @round = Round.new(round_params.except(:player_name).merge(player: player, questions: questions))
 
     if @round.save
       render :create, status: :created
