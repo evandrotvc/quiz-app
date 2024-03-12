@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :category do
+    name { Faker::Name.name }
   end
 
   factory :mathematic_category, parent: :category do
@@ -18,7 +19,3 @@ FactoryBot.define do
     name { 'portuguese' }
   end
 end
-
-
-
-

@@ -6,10 +6,10 @@ FactoryBot.define do
     association :category, factory: :portuguese_category
 
     after(:build) do |question|
-        question.options << create(:portuguese_option1_q1, question: question)
-        question.options << create(:portuguese_option2_q1, question: question)
-        question.options << create(:portuguese_option3_q1, question: question)
-        question.options << create(:portuguese_option4_q1, question: question)
+      question.options << create(:portuguese_option1_q1, question:)
+      question.options << create(:portuguese_option2_q1, question:)
+      question.options << create(:portuguese_option3_q1, question:)
+      question.options << create(:portuguese_option4_q1, question:)
     end
 
     description { 'o que é crase?' }

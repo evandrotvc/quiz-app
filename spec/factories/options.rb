@@ -15,6 +15,6 @@ FactoryBot.define do
 
   factory :portuguese_option4_q1, parent: :option do
     label { 'acento' }
-    correct {true}
+    correct { true }
   end
 end
