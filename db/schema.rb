@@ -16,8 +16,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_11_192521) do
 
   create_table "answers", force: :cascade do |t|
     t.bigint "round_id", null: false
-    t.bigint "question_id", null: false
-    t.bigint "option_id", null: false
+    t.bigint "question_id"
+    t.bigint "option_id"
     t.boolean "correct"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
