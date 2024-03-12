@@ -6,8 +6,17 @@ class RoundsController < ApplicationController
   end
 
   def create
-    @round = Round.create(round_params)
-    render :create status: :created
+    player = Player.find_by(name: round_params[:player_name])
+    questions = Question.filter_category(round_params[:category_id]).sample(2)
+    byebug
+
+    @round = Round.new(round_params.except(:player_name).merge(player: player, questions: questions))
+
+    if @round.save
+      render :create, status: :created
+    else
+      render :errors , status: :unprocessable_entity
+    end
   end
 
   def result

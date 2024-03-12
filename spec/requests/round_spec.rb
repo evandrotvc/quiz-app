@@ -2,35 +2,39 @@
 require 'rails_helper'
 
 RSpec.describe 'Rounds' do
+  let(:json) { response.parsed_body }
+
   describe 'GET /rounds/:id' do
     let(:round) { create(:rounds_1) }
     let(:answer) { create(:answer_question_1) }
 
     it 'returns a round with questions and answers' do
-      byebug
-      get "/rounds/#{round.id}"
+      get "/rounds/#{round.id}", as: :json
       expect(response).to have_http_status(:success)
 
-      json_response = response.parsed_body
-      expect(json_response).to have_key('round')
-      expect(json_response['round']).to include('id', 'player_id', 'questions', 'answers')
+      expect(json['round']).to include('id', 'player_id', 'questions', 'answers')
     end
   end
+# 
+  describe 'POST /rounds' do
+    it 'creates a new round' do
+      player = create(:player)
+      category = create(:portuguese_category)
+      question = create(:portuguese_question_2)
+      question2 = create(:portuguese_question_3)
+      byebug
+      round_params = { round: { player_name: player.name, category_id: category.id } }
 
-  # describe 'POST /rounds' do
-  #   it 'creates a new round' do
-  #     player = create(:player)
-  #     category = create(:category)
-  #     round_params = { round: { player_name: player.name, category_id: category.id } }
+      post '/rounds', params: round_params, as: :json
+      expect(response).to have_http_status(:created)
 
-  #     post '/rounds', params: round_params
-  #     expect(response).to have_http_status(:created)
-
-  #     json_response = response.parsed_body
-  #     expect(json_response).to have_key('round')
-  #     expect(json_response['round']).to include('id', 'player_id', 'questions', 'answers')
-  #   end
-  # end
+      byebug
+      # expect(json)
+      expect(json).to have_key('round')
+      expect(json['round']['player_id']).to eq(player.id)
+      expect(json['round']).to include('id', 'player_id', 'questions', 'answers')
+    end
+  end
 
   # describe 'GET /rounds/:id/result' do
   #   it 'returns the result of a round' do
