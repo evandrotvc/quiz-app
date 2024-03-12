@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :rounds, only: %i[show create] do
     member do
       get :result
-      post :answers, to: 'rounds#create_answer'
+      post :answers
     end
   end
 end
