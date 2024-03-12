@@ -2,6 +2,7 @@ class Round < ApplicationRecord
   belongs_to :player
   belongs_to :category
 
-  has_many :questions
+  has_many :question_rounds
+  has_many :questions, through: :question_rounds
   has_many :answers
 end
