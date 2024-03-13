@@ -5,14 +5,23 @@ RSpec.describe 'Rounds' do
   let(:json) { response.parsed_body }
 
   describe 'GET /rounds/:id' do
-    let(:round) { create(:rounds_1) }
-    let(:answer) { create(:answer_question_1) }
+    context 'questions all correct' do
+      let(:round) { create(:rounds_1) }
+      let(:question) { round.questions.first }
+      let(:option) { create(:portuguese_option4_q1, question: question) }  # setted correct true
+      let(:answer) { create(:answer, round: round, question: question, option: option, correct: true) }
 
-    it 'returns a round with questions and answers' do
-      get "/rounds/#{round.id}", as: :json
-      expect(response).to have_http_status(:success)
+      it 'returns a round with questions and answers' do
+        answer
+        get "/rounds/#{round.id}", as: :json
+        expect(response).to have_http_status(:success)
 
-      expect(json['round']).to include('id', 'player_id', 'questions', 'answers')
+        expect(json['round']).to include('id', 'player_id', 'questions', 'answers')
+        expect(json['round']['player_id']).to eq(round.player_id)
+        expect(json['round']['questions'].count).to eq(1)
+        expect(json['round']['questions'].first['options'].count).to eq(5)
+        expect(json['round']['answers'].first['correct']).to eq(true)
+      end
     end
   end
 
@@ -20,14 +29,16 @@ RSpec.describe 'Rounds' do
     it 'creates a new round' do
       player = create(:player)
       category = create(:portuguese_category)
-      # question = create(:portuguese_question_2)
-      # question2 = create(:portuguese_question_3)
+      question1 = create(:portuguese_question_1, category: category)
+      question2 = create(:portuguese_question_2, category: category)
+      question3 = create(:portuguese_question_3, category: category)
       round_params = { round: { player_name: player.name, category_id: category.id } }
 
       post '/rounds', params: round_params, as: :json
       expect(response).to have_http_status(:created)
 
       # expect(json)
+      byebug
       expect(json).to have_key('round')
       expect(json['round']['player_id']).to eq(player.id)
       expect(json['round']).to include('id', 'player_id', 'questions', 'answers')

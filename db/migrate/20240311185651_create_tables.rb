@@ -18,7 +18,7 @@ class CreateTables < ActiveRecord::Migration[7.0]
     end
 
     create_table :questions do |t|
-      t.belongs_to :round, null: false, foreign_key: true
+      t.belongs_to :round, null: true, foreign_key: true
       t.belongs_to :category, null: false, foreign_key: true
       t.string :description
       t.timestamps

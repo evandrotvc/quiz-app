@@ -1,5 +1,5 @@
 class Question < ApplicationRecord
-  belongs_to :round
+  belongs_to :round, optional: true, inverse_of: :questions
   belongs_to :category
   has_one :answers
   has_many :options

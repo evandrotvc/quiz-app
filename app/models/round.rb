@@ -3,6 +3,6 @@ class Round < ApplicationRecord
   belongs_to :category
 
   has_many :question_rounds
-  has_many :questions, through: :question_rounds
+  has_many :questions, through: :question_rounds, dependent: :destroy
   has_many :answers
 end
