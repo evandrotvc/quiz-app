@@ -32,16 +32,16 @@ RSpec.describe 'Rounds' do
       question1 = create(:portuguese_question_1, category: category)
       question2 = create(:portuguese_question_2, category: category)
       question3 = create(:portuguese_question_3, category: category)
+
       round_params = { round: { player_name: player.name, category_id: category.id } }
 
       post '/rounds', params: round_params, as: :json
       expect(response).to have_http_status(:created)
 
-      # expect(json)
-      byebug
-      expect(json).to have_key('round')
       expect(json['round']['player_id']).to eq(player.id)
-      expect(json['round']).to include('id', 'player_id', 'questions', 'answers')
+      expect(json['round']['questions'].count).to eq(2)
+      expect(json['round']['questions'].first['options'].count).to eq(4)
+      expect(json['round']['answers'].count).to eq(0)
     end
   end
 

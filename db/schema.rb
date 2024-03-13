@@ -57,13 +57,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_11_192521) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.bigint "round_id", null: false
     t.bigint "category_id", null: false
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_questions_on_category_id"
-    t.index ["round_id"], name: "index_questions_on_round_id"
   end
 
   create_table "rounds", force: :cascade do |t|
@@ -82,7 +80,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_11_192521) do
   add_foreign_key "question_rounds", "questions"
   add_foreign_key "question_rounds", "rounds"
   add_foreign_key "questions", "categories"
-  add_foreign_key "questions", "rounds"
   add_foreign_key "rounds", "categories"
   add_foreign_key "rounds", "players"
 end
