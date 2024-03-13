@@ -1,9 +1,11 @@
-require 'sidekiq/web'
-
 Rails.application.routes.draw do
-  mount Sidekiq::Web => '/sidekiq'
-
   root to: 'questions#index'
 
-  resources :questions, except: :destroy
+  resources :categories, only: [:index]
+  resources :rounds, only: %i[show create] do
+    member do
+      get :result
+      post :answers
+    end
+  end
 end
