@@ -8,7 +8,8 @@ class RoundsController < ApplicationController
   end
 
   def create
-    player = Player.find_by(name: round_params[:player_name])
+    player = Player.find_or_create_by(name: round_params[:player_name])
+
     questions = Question.filter_category(round_params[:category_id]).sample(2)
 
     @round = Round.new(round_params.except(:player_name).merge(player:,
