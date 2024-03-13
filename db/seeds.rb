@@ -6,8 +6,8 @@
 
 def create_options_questions_math(question, index)
     if index == 0
-      [{ label: '1' }, { label: '2' }, { label: '3' },
-       { label: '4', correct: true }].each do |option|
+      [{ label: '1' }, { label: '2',  correct: true }, { label: '3' },
+       { label: '4' }].each do |option|
         Option.create!(option.merge(question: question ))
       end
     elsif index == 1
