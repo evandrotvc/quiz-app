@@ -36,6 +36,9 @@ Layout/LineLength:
 Lint/MissingSuper:
   Enabled: false
 
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
+
 RSpec/VerifiedDoubles:
   Enabled: false
 

@@ -3,5 +3,8 @@ json.round do
   json.player_id @round.player_id
   json.total_questions @round.questions.count
   json.total_answered_questions @round.answers.count
-  json.total_correct_answers @round.answers.joins(:option).where(options: { correct: true }).count
+  json.total_correct_answers @round.answers
+    .joins(:option)
+    .where(options: { correct: true })
+    .count
 end

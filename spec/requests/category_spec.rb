@@ -13,15 +13,12 @@ RSpec.describe Category do
       expect(response).to have_http_status(:ok)
     end
 
-    it 'retorna a lista de categorias em JSON' do
+    it 'return categories list in response' do
       expect(json['categories'].size).to eq(3)
     end
 
-    it 'retorna os atributos corretos para cada categoria' do
-      json['categories'].each do |category|
-        expect(category).to have_key('id')
-        expect(category).to have_key('name')
-      end
+    it 'return all attributes from category' do
+      expect(json['categories']).to all(have_key('id').and(have_key('name')))
     end
   end
 end
