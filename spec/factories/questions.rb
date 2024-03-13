@@ -2,9 +2,6 @@ FactoryBot.define do
   factory :question do
   end
   factory :portuguese_question_1, parent: :question do
-    # association :round, factory: :rounds_1
-    # association :category, factory: :portuguese_category
-
     after(:build) do |question|
       question.options << create(:portuguese_option1_q1, question:)
       question.options << create(:portuguese_option2_q1, question:)
@@ -16,8 +13,6 @@ FactoryBot.define do
   end
 
   factory :portuguese_question_2, parent: :question do
-    # association :category, factory: :portuguese_category
-
     after(:build) do |question|
       question.options << create(:portuguese_option1_q2, question:)
       question.options << create(:portuguese_option2_q2, question:)
@@ -29,8 +24,6 @@ FactoryBot.define do
   end
 
   factory :portuguese_question_3, parent: :question do
-    # association :category, factory: :portuguese_category
-
     after(:build) do |question|
       question.options << create(:portuguese_option1_q3, question:)
       question.options << create(:portuguese_option2_q3, question:)

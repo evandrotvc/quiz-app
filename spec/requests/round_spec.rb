@@ -13,7 +13,7 @@ RSpec.describe 'Rounds' do
       end
       let(:option) { question.options.find_by(correct: true) } # get option correct
       let!(:answer) do
-        create(:answer, round:, question:, option:, correct: true)
+        create(:answer, round:, question:, option:)
       end
 
       it 'returns a round with questions and answers' do
@@ -112,12 +112,16 @@ RSpec.describe 'Rounds' do
   end
 
   describe 'POST /rounds/:id/answers' do
-    context 'answer is correct' do
-      it 'creates a new answer for a round' do
-        round = create(:rounds_1)
-        question = round.questions.first
-        option = create(:portuguese_option4_q1, question:) # setted correct true
+    let(:category) { create(:portuguese_category) }
+    let(:round) { create(:rounds_1, category:) }
+    let(:question) do
+      create(:portuguese_question_1, rounds: [round], category:)
+    end
 
+    context 'answer is correct' do
+      let(:option) { question.options.find_by(correct: true) } # get option correct
+
+      it 'creates a new answer for a round' do
         answer_params = { answer: { question_id: question.id, option_id: option.id } }
 
         post "/rounds/#{round.id}/answers", params: answer_params, as: :json
@@ -130,19 +134,17 @@ RSpec.describe 'Rounds' do
     end
 
     context 'answer is false' do
-      it 'creates a new answer for a round' do
-        round = create(:rounds_1)
-        question = round.questions.first
-        option = create(:portuguese_option2_q1, question:) # setted corect false
+      let(:option) { question.options.find_by(correct: false) } # get option false
 
+      it 'creates a new answer for a round' do
         answer_params = { answer: { question_id: question.id, option_id: option.id } }
 
         post "/rounds/#{round.id}/answers", params: answer_params, as: :json
         expect(response).to have_http_status(:created)
 
-        expect(json['answer']['correct']).to be(false)
         expect(json['answer']['question_id']).to eq(question.id)
         expect(json['answer']['option_id']).to eq(option.id)
+        expect(json['answer']['correct']).to be(false)
       end
     end
   end
