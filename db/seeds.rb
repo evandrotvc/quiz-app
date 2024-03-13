@@ -28,6 +28,30 @@ def create_options_questions_math(question, index)
     end
 end
 
+def create_options_questions_portuguese(question, index)
+    if index == 0
+      [{ label: 'sujeito' }, { label: 'qualidade' }, { label: 'ação' },
+       { label: 'acento', correct: true }].each do |option|
+        Option.create!(option.merge(question: question ))
+      end
+    elsif index == 1
+      [{ label: 'ação', correct: true }, { label: 'qualidade' }, { label: 'sujeito' },
+       { label: 'objeto' }].each do |option|
+        Option.create!(option.merge(question: question ))
+      end
+    elsif index == 2
+      [{ label: 'sujeito', correct: true }, { label: 'qualidade' }, { label: 'ação' },
+       { label: 'objeto' }].each do |option|
+        Option.create!(option.merge(question: question ))
+      end
+    elsif index == 3
+      [{ label: 'ação' }, { label: 'substantivo' }, { label: 'objeto' },
+       { label: 'qualidade', correct: true }].each do |option|
+        Option.create!(option.merge(question: question ))
+      end
+    end
+end
+
 %w[portuguese mathematics].each do |category|
   new_category = Category.find_by(name: category)
 
@@ -48,9 +72,23 @@ end
   if new_question
     puts "Question: #{new_question} já existe."
   else
-    # byebug
     new_question = Question.create!(description: question, category: category)
     create_options_questions_math(new_question, index)
     puts "Question: #{new_question} criada com sucesso!"
   end
+end
+
+# questions portuguese
+
+['O que é acento?', 'O que é verbo?', 'O que é substantivo?','O que é adjetivo?'].each_with_index do |question, index|
+    category = Category.find_by(name: 'portuguese')
+    new_question = Question.find_by(description: question)
+
+    if new_question
+      puts "Question: #{new_question} já existe."
+    else
+      new_question = Question.create!(description: question, category: category)
+      create_options_questions_portuguese(new_question, index)
+      puts "Question: #{new_question} criada com sucesso!"
+    end
 end
