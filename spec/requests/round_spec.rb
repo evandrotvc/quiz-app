@@ -6,20 +6,20 @@ RSpec.describe 'Rounds' do
 
   describe 'GET /rounds/:id' do
     context 'questions all correct' do
-      let(:round) { create(:rounds_1) }
-      let(:question) { round.questions.first }
-      let(:option) { create(:portuguese_option4_q1, question: question) }  # setted correct true
-      let(:answer) { create(:answer, round: round, question: question, option: option, correct: true) }
+      let(:category) { create(:portuguese_category) }
+      let(:round) { create(:rounds_1, category: category) }
+      let(:question) { create(:portuguese_question_1, rounds: [round], category: category) }
+      let(:option) { question.options.find_by(correct: true) }  # get option correct
+      let!(:answer) { create(:answer, round: round, question: question, option: option, correct: true) }
 
       it 'returns a round with questions and answers' do
-        answer
         get "/rounds/#{round.id}", as: :json
         expect(response).to have_http_status(:success)
 
         expect(json['round']).to include('id', 'player_id', 'questions', 'answers')
         expect(json['round']['player_id']).to eq(round.player_id)
         expect(json['round']['questions'].count).to eq(1)
-        expect(json['round']['questions'].first['options'].count).to eq(5)
+        expect(json['round']['questions'].first['options'].count).to eq(4)
         expect(json['round']['answers'].first['correct']).to eq(true)
       end
     end
