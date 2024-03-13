@@ -34,7 +34,6 @@ class CreateTables < ActiveRecord::Migration[7.0]
       t.belongs_to :round, null: false, foreign_key: true
       t.belongs_to :question, null: true, foreign_key: true
       t.belongs_to :option, null: true, foreign_key: true
-      t.boolean :correct
       t.timestamps
     end
 

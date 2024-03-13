@@ -16,10 +16,10 @@ RSpec.describe 'Rounds' do
         get "/rounds/#{round.id}", as: :json
         expect(response).to have_http_status(:success)
 
-        expect(json['round']).to include('id', 'player_id', 'questions', 'answers')
         expect(json['round']['player_id']).to eq(round.player_id)
         expect(json['round']['questions'].count).to eq(1)
         expect(json['round']['questions'].first['options'].count).to eq(4)
+        expect(json['round']['answers'].count).to eq(1)
         expect(json['round']['answers'].first['correct']).to eq(true)
       end
     end
@@ -46,21 +46,48 @@ RSpec.describe 'Rounds' do
   end
 
   describe 'GET /rounds/:id/result' do
-    it 'returns the result of a round' do
-      round = create(:rounds_1)
-      question = round.questions.first
-      option = create(:portuguese_option4_q1, question: question)
+    context 'user answered all questions correct' do
+      let(:category) { create(:portuguese_category) }
+      let(:round) { create(:rounds_1, category: category) }
+      let(:question) { create(:portuguese_question_1, rounds: [round], category: category) }
+      let(:question2) { create(:portuguese_question_2, rounds: [round], category: category) }
+      let(:option_q1) { question.options.find_by(correct: true) }  # get option correct
+      let(:option_q2) { question2.options.find_by(correct: true) }  # get option correct
+      let!(:answer) { create(:answer, round: round, question: question, option: option_q1) }
+      let!(:answer2) { create(:answer, round: round, question: question, option: option_q2) }
 
-      answer = create(:answer, round: round, question: question, option: option, correct: true)
-      get "/rounds/#{round.id}/result", as: :json
-      expect(response).to have_http_status(:success)
+      it 'returns the result of a round' do
+        get "/rounds/#{round.id}/result", as: :json
+        expect(response).to have_http_status(:success)
 
-      expect(json).to have_key('round')
-      expect(json['round']).to include('id', 'player_id', 'total_questions',
-        'total_answered_questions', 'total_correct_answers')
-      expect(json['round']['total_questions']).to eq(1)
-      expect(json['round']['total_correct_answers']).to eq(1)
-      expect(json['round']['total_answered_questions']).to eq(1)
+        expect(json['round']).to include('id', 'player_id', 'total_questions',
+          'total_answered_questions', 'total_correct_answers')
+        expect(json['round']['total_questions']).to eq(2)
+        expect(json['round']['total_correct_answers']).to eq(2)
+        expect(json['round']['total_answered_questions']).to eq(2)
+      end
+    end
+
+    context 'user answered one question correct' do
+      let(:category) { create(:portuguese_category) }
+      let(:round) { create(:rounds_1, category: category) }
+      let(:question) { create(:portuguese_question_1, rounds: [round], category: category) }
+      let(:question2) { create(:portuguese_question_2, rounds: [round], category: category) }
+      let(:option_q1) { question.options.find_by(correct: true) }  # get option correct
+      let(:option_q2) { question2.options.find_by(correct: false) }  # get option correct
+      let!(:answer) { create(:answer, round: round, question: question, option: option_q1) }
+      let!(:answer2) { create(:answer, round: round, question: question, option: option_q2) }
+
+      it 'returns the result of a round' do
+        get "/rounds/#{round.id}/result", as: :json
+        expect(response).to have_http_status(:success)
+        byebug
+        expect(json['round']).to include('id', 'player_id', 'total_questions',
+          'total_answered_questions', 'total_correct_answers')
+        expect(json['round']['total_questions']).to eq(2)
+        expect(json['round']['total_correct_answers']).to eq(1)
+        expect(json['round']['total_answered_questions']).to eq(2)
+      end
     end
   end
 
