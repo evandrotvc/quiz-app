@@ -5,18 +5,19 @@ RSpec.describe 'Rounds' do
   let(:json) { response.parsed_body }
 
   describe 'GET /rounds/:id' do
-    context 'questions all correct' do
+    context 'when questions all correct' do
       let(:category) { create(:portuguese_category) }
       let(:round) { create(:rounds_1, category:) }
       let(:question) do
         create(:portuguese_question_1, rounds: [round], category:)
       end
       let(:option) { question.options.find_by(correct: true) } # get option correct
-      let!(:answer) do
+      let(:answer) do
         create(:answer, round:, question:, option:)
       end
 
       it 'returns a round with questions and answers' do
+        answer
         get "/rounds/#{round.id}", as: :json
         expect(response).to have_http_status(:success)
 
@@ -30,13 +31,24 @@ RSpec.describe 'Rounds' do
   end
 
   describe 'POST /rounds' do
-    it 'creates a new round' do
-      player = create(:player)
-      category = create(:portuguese_category)
-      question1 = create(:portuguese_question_1, category:)
-      question2 = create(:portuguese_question_2, category:)
-      question3 = create(:portuguese_question_3, category:)
+    let(:player) { create(:player) }
+    let(:category) { create(:portuguese_category) }
+    let(:question1) do
+      create(:portuguese_question_1, rounds: [], category:)
+    end
 
+    let(:question2) do
+      create(:portuguese_question_2, rounds: [], category:)
+    end
+
+    let(:question3) do
+      create(:portuguese_question_3, rounds: [], category:)
+    end
+
+    it 'creates a new round' do
+      question1
+      question2
+      question3
       round_params = { round: { player_name: player.name, category_id: category.id } }
 
       post '/rounds', params: round_params, as: :json
@@ -50,7 +62,7 @@ RSpec.describe 'Rounds' do
   end
 
   describe 'GET /rounds/:id/result' do
-    context 'user answered all questions correct' do
+    context 'when user answered all questions correct' do
       let(:category) { create(:portuguese_category) }
       let(:round) { create(:rounds_1, category:) }
       let(:question) do
@@ -61,14 +73,16 @@ RSpec.describe 'Rounds' do
       end
       let(:option_q1) { question.options.find_by(correct: true) } # get option correct
       let(:option_q2) { question2.options.find_by(correct: true) } # get option correct
-      let!(:answer) do
+      let(:answer) do
         create(:answer, round:, question:, option: option_q1)
       end
-      let!(:answer2) do
+      let(:answer2) do
         create(:answer, round:, question:, option: option_q2)
       end
 
       it 'returns the result of a round' do
+        answer
+        answer2
         get "/rounds/#{round.id}/result", as: :json
         expect(response).to have_http_status(:success)
 
@@ -80,7 +94,7 @@ RSpec.describe 'Rounds' do
       end
     end
 
-    context 'user answered one question correct' do
+    context 'when user answered one question correct' do
       let(:category) { create(:portuguese_category) }
       let(:round) { create(:rounds_1, category:) }
       let(:question) do
@@ -91,14 +105,16 @@ RSpec.describe 'Rounds' do
       end
       let(:option_q1) { question.options.find_by(correct: true) } # get option correct
       let(:option_q2) { question2.options.find_by(correct: false) } # get option correct
-      let!(:answer) do
+      let(:answer) do
         create(:answer, round:, question:, option: option_q1)
       end
-      let!(:answer2) do
+      let(:answer2) do
         create(:answer, round:, question:, option: option_q2)
       end
 
       it 'returns the result of a round' do
+        answer
+        answer2
         get "/rounds/#{round.id}/result", as: :json
         expect(response).to have_http_status(:success)
 
@@ -118,7 +134,7 @@ RSpec.describe 'Rounds' do
       create(:portuguese_question_1, rounds: [round], category:)
     end
 
-    context 'answer is correct' do
+    context 'when answer is correct' do
       let(:option) { question.options.find_by(correct: true) } # get option correct
 
       it 'creates a new answer for a round' do
@@ -133,7 +149,7 @@ RSpec.describe 'Rounds' do
       end
     end
 
-    context 'answer is false' do
+    context 'when answer is false' do
       let(:option) { question.options.find_by(correct: false) } # get option false
 
       it 'creates a new answer for a round' do

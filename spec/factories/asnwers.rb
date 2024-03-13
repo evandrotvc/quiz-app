@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :answer do
+    {}
   end
 
   factory :answer_question_1, parent: :answer do

@@ -1,4 +1,4 @@
 class Category < ApplicationRecord
-  has_many :rounds
-  has_many :questions
+  has_many :rounds, dependent: :destroy
+  has_many :questions, dependent: :destroy
 end

@@ -1,6 +1,8 @@
 FactoryBot.define do
   factory :question do
+    {}
   end
+
   factory :portuguese_question_1, parent: :question do
     after(:build) do |question|
       question.options << create(:portuguese_option1_q1, question:)
