@@ -39,6 +39,7 @@ RAILS_ENV=test rspec
 ```
 
 ### Testes passando
+![alt text](image-1.png)
 ![alt text](image.png)
 
 
