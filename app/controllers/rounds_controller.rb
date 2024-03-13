@@ -39,7 +39,7 @@ class RoundsController < ApplicationController
   private
 
   def set_round
-    @round = Round.find(params[:id])
+    @round = Round.includes(:questions, questions: :options).find(params[:id])
   end
 
   def round_params
