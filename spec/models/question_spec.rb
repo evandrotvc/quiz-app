@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Question do
   describe 'relations' do
-    it { is_expected.to belong_to(:round) }
+    it { is_expected.to have_many(:rounds) }
     it { is_expected.to have_many(:options) }
   end
 

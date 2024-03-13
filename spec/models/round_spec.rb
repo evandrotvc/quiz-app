@@ -7,15 +7,4 @@ RSpec.describe Round do
     it { is_expected.to have_many(:questions) }
     it { is_expected.to have_many(:answers) }
   end
-
-  describe 'persist' do
-    let(:round) { create(:rounds_1) }
-    let(:question1) { create(:portuguese_question_1) }
-    let(:history_category) { create(:history_category) }
-    let(:option) { create(:portuguese_option1_q1) }
-
-    it 'test' do
-      byebug
-    end
-  end
 end
