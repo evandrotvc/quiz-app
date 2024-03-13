@@ -25,7 +25,7 @@ Se tudo foi instalado com sucesso, estará rodando os containers postgres(port: 
 
 Comando para entrar no container e caso queira rodar os testes
 ```
-docker exec -it app bash
+docker exec -it qapp bash
 ```
 
 Agora é possível entrar no http://localhost:3000/ e realizar os testes se todos os containers executaram corretamente
@@ -43,4 +43,6 @@ RAILS_ENV=test rspec
 
 
 ## Uso da plataforma
-<video width="630" height="300" src="https://github.com/evandrotvc/quiz-app/blob/main/app/assets/quiz_video.mp4"></video>
+https://github.com/evandrotvc/quiz-app/assets/51249134/05468f75-8447-4273-afd6-d5e2a3d701eb
+
+
