@@ -4,5 +4,4 @@ class Answer < ApplicationRecord
   belongs_to :option
 
   delegate :correct, to: :option, allow_nil: true, prefix: true
-
 end

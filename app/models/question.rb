@@ -9,6 +9,6 @@ class Question < ApplicationRecord
   validates :description, presence: true
 
   def self.filter_category(category_id)
-    Question.where(category_id: category_id)
+    Question.where(category_id:)
   end
 end

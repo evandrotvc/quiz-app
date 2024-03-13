@@ -11,12 +11,13 @@ class RoundsController < ApplicationController
     player = Player.find_by(name: round_params[:player_name])
     questions = Question.filter_category(round_params[:category_id]).sample(2)
 
-    @round = Round.new(round_params.except(:player_name).merge(player: player, questions: questions))
+    @round = Round.new(round_params.except(:player_name).merge(player:,
+      questions:))
 
     if @round.save
       render :create, status: :created
     else
-      render :errors , status: :unprocessable_entity
+      render :errors, status: :unprocessable_entity
     end
   end
 

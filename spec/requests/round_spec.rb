@@ -7,10 +7,14 @@ RSpec.describe 'Rounds' do
   describe 'GET /rounds/:id' do
     context 'questions all correct' do
       let(:category) { create(:portuguese_category) }
-      let(:round) { create(:rounds_1, category: category) }
-      let(:question) { create(:portuguese_question_1, rounds: [round], category: category) }
-      let(:option) { question.options.find_by(correct: true) }  # get option correct
-      let!(:answer) { create(:answer, round: round, question: question, option: option, correct: true) }
+      let(:round) { create(:rounds_1, category:) }
+      let(:question) do
+        create(:portuguese_question_1, rounds: [round], category:)
+      end
+      let(:option) { question.options.find_by(correct: true) } # get option correct
+      let!(:answer) do
+        create(:answer, round:, question:, option:, correct: true)
+      end
 
       it 'returns a round with questions and answers' do
         get "/rounds/#{round.id}", as: :json
@@ -20,7 +24,7 @@ RSpec.describe 'Rounds' do
         expect(json['round']['questions'].count).to eq(1)
         expect(json['round']['questions'].first['options'].count).to eq(4)
         expect(json['round']['answers'].count).to eq(1)
-        expect(json['round']['answers'].first['correct']).to eq(true)
+        expect(json['round']['answers'].first['correct']).to be(true)
       end
     end
   end
@@ -29,9 +33,9 @@ RSpec.describe 'Rounds' do
     it 'creates a new round' do
       player = create(:player)
       category = create(:portuguese_category)
-      question1 = create(:portuguese_question_1, category: category)
-      question2 = create(:portuguese_question_2, category: category)
-      question3 = create(:portuguese_question_3, category: category)
+      question1 = create(:portuguese_question_1, category:)
+      question2 = create(:portuguese_question_2, category:)
+      question3 = create(:portuguese_question_3, category:)
 
       round_params = { round: { player_name: player.name, category_id: category.id } }
 
@@ -48,13 +52,21 @@ RSpec.describe 'Rounds' do
   describe 'GET /rounds/:id/result' do
     context 'user answered all questions correct' do
       let(:category) { create(:portuguese_category) }
-      let(:round) { create(:rounds_1, category: category) }
-      let(:question) { create(:portuguese_question_1, rounds: [round], category: category) }
-      let(:question2) { create(:portuguese_question_2, rounds: [round], category: category) }
-      let(:option_q1) { question.options.find_by(correct: true) }  # get option correct
-      let(:option_q2) { question2.options.find_by(correct: true) }  # get option correct
-      let!(:answer) { create(:answer, round: round, question: question, option: option_q1) }
-      let!(:answer2) { create(:answer, round: round, question: question, option: option_q2) }
+      let(:round) { create(:rounds_1, category:) }
+      let(:question) do
+        create(:portuguese_question_1, rounds: [round], category:)
+      end
+      let(:question2) do
+        create(:portuguese_question_2, rounds: [round], category:)
+      end
+      let(:option_q1) { question.options.find_by(correct: true) } # get option correct
+      let(:option_q2) { question2.options.find_by(correct: true) } # get option correct
+      let!(:answer) do
+        create(:answer, round:, question:, option: option_q1)
+      end
+      let!(:answer2) do
+        create(:answer, round:, question:, option: option_q2)
+      end
 
       it 'returns the result of a round' do
         get "/rounds/#{round.id}/result", as: :json
@@ -70,18 +82,26 @@ RSpec.describe 'Rounds' do
 
     context 'user answered one question correct' do
       let(:category) { create(:portuguese_category) }
-      let(:round) { create(:rounds_1, category: category) }
-      let(:question) { create(:portuguese_question_1, rounds: [round], category: category) }
-      let(:question2) { create(:portuguese_question_2, rounds: [round], category: category) }
-      let(:option_q1) { question.options.find_by(correct: true) }  # get option correct
-      let(:option_q2) { question2.options.find_by(correct: false) }  # get option correct
-      let!(:answer) { create(:answer, round: round, question: question, option: option_q1) }
-      let!(:answer2) { create(:answer, round: round, question: question, option: option_q2) }
+      let(:round) { create(:rounds_1, category:) }
+      let(:question) do
+        create(:portuguese_question_1, rounds: [round], category:)
+      end
+      let(:question2) do
+        create(:portuguese_question_2, rounds: [round], category:)
+      end
+      let(:option_q1) { question.options.find_by(correct: true) } # get option correct
+      let(:option_q2) { question2.options.find_by(correct: false) } # get option correct
+      let!(:answer) do
+        create(:answer, round:, question:, option: option_q1)
+      end
+      let!(:answer2) do
+        create(:answer, round:, question:, option: option_q2)
+      end
 
       it 'returns the result of a round' do
         get "/rounds/#{round.id}/result", as: :json
         expect(response).to have_http_status(:success)
-        byebug
+
         expect(json['round']).to include('id', 'player_id', 'total_questions',
           'total_answered_questions', 'total_correct_answers')
         expect(json['round']['total_questions']).to eq(2)
@@ -96,18 +116,16 @@ RSpec.describe 'Rounds' do
       it 'creates a new answer for a round' do
         round = create(:rounds_1)
         question = round.questions.first
-        option = create(:portuguese_option4_q1, question: question) # setted correct true
+        option = create(:portuguese_option4_q1, question:) # setted correct true
 
         answer_params = { answer: { question_id: question.id, option_id: option.id } }
 
         post "/rounds/#{round.id}/answers", params: answer_params, as: :json
         expect(response).to have_http_status(:created)
 
-
         expect(json['answer']['question_id']).to eq(question.id)
         expect(json['answer']['option_id']).to eq(option.id)
-        expect(json['answer']['correct']).to eq(true)
-
+        expect(json['answer']['correct']).to be(true)
       end
     end
 
@@ -115,14 +133,14 @@ RSpec.describe 'Rounds' do
       it 'creates a new answer for a round' do
         round = create(:rounds_1)
         question = round.questions.first
-        option = create(:portuguese_option2_q1, question: question) # setted corect false
+        option = create(:portuguese_option2_q1, question:) # setted corect false
 
         answer_params = { answer: { question_id: question.id, option_id: option.id } }
 
         post "/rounds/#{round.id}/answers", params: answer_params, as: :json
         expect(response).to have_http_status(:created)
 
-        expect(json['answer']['correct']).to eq(false)
+        expect(json['answer']['correct']).to be(false)
         expect(json['answer']['question_id']).to eq(question.id)
         expect(json['answer']['option_id']).to eq(option.id)
       end
