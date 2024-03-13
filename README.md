@@ -43,4 +43,4 @@ RAILS_ENV=test rspec
 
 
 ## Uso da plataforma
-<video width="630" height="300" src="https://github.com/evandrotvc/municipies/assets/51249134/3976f740-43fd-4992-80de-25ae82c5ee43"></video>
+<video width="630" height="300" src="https://github.com/evandrotvc/quiz-app/blob/main/app/assets/quiz_video.mp4"></video>
