@@ -25,7 +25,7 @@ Se tudo foi instalado com sucesso, estará rodando os containers postgres(port: 
 
 Comando para entrar no container e caso queira rodar os testes
 ```
-docker exec -it app bash
+docker exec -it qapp bash
 ```
 
 Agora é possível entrar no http://localhost:3000/ e realizar os testes se todos os containers executaram corretamente
