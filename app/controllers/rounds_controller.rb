@@ -32,7 +32,7 @@ class RoundsController < ApplicationController
     if @answer.save
       render 'rounds/answers', status: :created
     else
-      render json: { errors: @answer.errors }, status: :unprocessable_entity
+      render 'answers/errors', status: :unprocessable_entity
     end
   end
 

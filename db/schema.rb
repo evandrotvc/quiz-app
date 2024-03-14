@@ -26,14 +26,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_11_192521) do
   end
 
   create_table "categories", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
   create_table "options", force: :cascade do |t|
     t.bigint "question_id", null: false
-    t.string "label"
+    t.string "label", null: false
     t.boolean "correct", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -41,7 +42,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_11_192521) do
   end
 
   create_table "players", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -57,7 +58,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_11_192521) do
 
   create_table "questions", force: :cascade do |t|
     t.bigint "category_id", null: false
-    t.string "description"
+    t.string "description", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_questions_on_category_id"

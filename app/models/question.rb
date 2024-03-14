@@ -1,6 +1,6 @@
 class Question < ApplicationRecord
   belongs_to :category
-  has_one :answers, dependent: :nullify
+  has_many :answers, dependent: :nullify
   has_many :options, dependent: :destroy
 
   has_many :question_rounds, dependent: :destroy

@@ -45,19 +45,28 @@ RSpec.describe 'Rounds' do
       create(:portuguese_question_3, rounds: [], category:)
     end
 
-    it 'creates a new round' do
-      question1
-      question2
-      question3
-      round_params = { round: { player_name: player.name, category_id: category.id } }
+    context "when parameters are valid" do
+      it 'creates a new round' do
+        question1
+        question2
+        question3
+        round_params = { round: { player_name: player.name, category_id: category.id } }
 
-      post '/rounds', params: round_params, as: :json
-      expect(response).to have_http_status(:created)
+        post '/rounds', params: round_params, as: :json
+        expect(response).to have_http_status(:created)
 
-      expect(json['round']['player_id']).to eq(player.id)
-      expect(json['round']['questions'].count).to eq(2)
-      expect(json['round']['questions'].first['options'].count).to eq(4)
-      expect(json['round']['answers'].count).to eq(0)
+        expect(json['round']['player_id']).to eq(player.id)
+        expect(json['round']['questions'].count).to eq(2)
+        expect(json['round']['questions'].first['options'].count).to eq(4)
+        expect(json['round']['answers'].count).to eq(0)
+      end
+    end
+
+    context "when parameters are invalid" do
+      it "returns unprocessable_entity" do
+        post "/rounds", params: { round: { player_name: nil, category_id: nil } }, as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
     end
   end
 
@@ -161,6 +170,13 @@ RSpec.describe 'Rounds' do
         expect(json['answer']['question_id']).to eq(question.id)
         expect(json['answer']['option_id']).to eq(option.id)
         expect(json['answer']['correct']).to be(false)
+      end
+    end
+
+    context "when parameters are invalid" do
+      it "returns unprocessable_entity" do
+        post "/rounds/#{round.id}/answers", params: { answer: { question_id: nil, option_id: nil } }, as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
