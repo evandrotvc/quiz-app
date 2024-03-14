@@ -47,3 +47,7 @@ RAILS_ENV=test rspec
 https://github.com/evandrotvc/quiz-app/assets/51249134/05468f75-8447-4273-afd6-d5e2a3d701eb
 
 
+### ERD
+
+![image](https://github.com/evandrotvc/quiz-app/assets/51249134/c28d1bc3-e54e-413c-a090-f53184ae422a)
+
