@@ -45,7 +45,7 @@ RSpec.describe 'Rounds' do
       create(:portuguese_question_3, rounds: [], category:)
     end
 
-    context "when parameters are valid" do
+    context 'when parameters are valid' do
       it 'creates a new round' do
         question1
         question2
@@ -62,9 +62,10 @@ RSpec.describe 'Rounds' do
       end
     end
 
-    context "when parameters are invalid" do
-      it "returns unprocessable_entity" do
-        post "/rounds", params: { round: { player_name: nil, category_id: nil } }, as: :json
+    context 'when parameters are invalid' do
+      it 'returns unprocessable_entity' do
+        post '/rounds', params: { round: { player_name: nil, category_id: nil } },
+          as: :json
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -173,9 +174,10 @@ RSpec.describe 'Rounds' do
       end
     end
 
-    context "when parameters are invalid" do
-      it "returns unprocessable_entity" do
-        post "/rounds/#{round.id}/answers", params: { answer: { question_id: nil, option_id: nil } }, as: :json
+    context 'when parameters are invalid' do
+      it 'returns unprocessable_entity' do
+        post "/rounds/#{round.id}/answers",
+          params: { answer: { question_id: nil, option_id: nil } }, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
